@@ -1,9 +1,14 @@
-# Replace @YOUR-GITHUB-USERNAME with real GitHub usernames (one owner per area).
-# Every PR touching a path needs approval from its owner.
+# Default owner: reviews anything not matched below
+*                    @urban13e3
 
-*                 @YOUR-GITHUB-USERNAME
-/docs/            @YOUR-GITHUB-USERNAME
-/.github/         @YOUR-GITHUB-USERNAME
-# /src/catalog/   @teammate-1
-# /src/cart/      @teammate-2
-# /src/checkout/  @teammate-3
+# SCM records, CI and configuration
+/docs/               @urban13e3
+/.github/            @urban13e3
+/package.json        @urban13e3
+
+# Application areas (one owner each)
+/src/catalog/        @BASIT202
+/src/cart/           @bdaudu
+/src/checkout/       @david-okenla
+/src/auth/           @rio-cl
+/tests/              @urban13e3
