@@ -1,0 +1,9 @@
+# Replace @YOUR-GITHUB-USERNAME with real GitHub usernames (one owner per area).
+# Every PR touching a path needs approval from its owner.
+
+*                 @YOUR-GITHUB-USERNAME
+/docs/            @YOUR-GITHUB-USERNAME
+/.github/         @YOUR-GITHUB-USERNAME
+# /src/catalog/   @teammate-1
+# /src/cart/      @teammate-2
+# /src/checkout/  @teammate-3
