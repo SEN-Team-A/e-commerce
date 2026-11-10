@@ -2,6 +2,13 @@
 
 An Amazon-style online store, used by **SEN-Team-A** to demonstrate Software Configuration Management (SCM): identification, control, status accounting and audit.
 
+Team Members
+1. Kolawole Agbolade
+2. Abdulbasit Muftau
+3. Basil Daudu
+4. Raymond Okolo
+5. David Okenla
+
 ## Repository layout
 | Path | Purpose |
 |---|---|
