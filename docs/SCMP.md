@@ -1,15 +1,59 @@
 # Software Configuration Management Plan (SCMP)
-**Project:** E-Commerce Platform  **Team:** SEN-Team-A  **Version:** 0.1 (draft)  **Course:** SEN 401
+**Project:** E-Commerce Platform  **Team:** SEN-Team-A  **Version:** 0.2 (draft)  **Course:** SEN 401
 
 > Fields marked **[FILL]** must be completed by the team before submission (names, dates, cadence).
 
 ## 1. Introduction
 ### 1.1 Purpose
-This plan defines how configuration items of the E-Commerce Platform are identified, controlled, accounted for and audited throughout the project life cycle.
+This Software Configuration Management Plan (SCMP) sets out how SEN-Team-A manages change to the E-Commerce Platform, from the first commit to final submission. It defines how configuration items are identified, how changes to them are requested, approved and implemented, how progress is reported, and how the team checks that its practice matches this plan.
+
+The plan has two audiences. Team members use it as a working instruction manual for everyday changes. The course lecturer uses it as the standard against which the team's repository and Jira records are audited.
+
 ### 1.2 Scope
-Covers source code, tests, documentation, CI/CD definitions and configuration files in the `SEN-Team-A/e-commerce` repository and tickets in the Jira project `ECOM`. Excludes third-party hosting infrastructure.
-### 1.3 Definitions
-- **CI** — Configuration Item. **CCB** — Change Control Board. **CR** — Change Request. **Baseline** — reviewed, stable snapshot tagged in Git.
+**The system.** The E-Commerce Platform is an online store modelled on large marketplaces such as Amazon. Customers can browse and search for products, create accounts, add items to a cart, place orders, make payments and track deliveries. Administrators manage products, customers, orders, inventory and sales.
+
+**What this plan covers.** Every configuration item stored in the GitHub repository `SEN-Team-A/e-commerce`, and every change request tracked in the Jira space `ECOM`, for the whole development and maintenance of the platform.
+
+**What this plan does not cover.** Hosting infrastructure and services run by third parties (for example payment providers) are outside the team's configuration control. The versions and settings the platform depends on are still recorded, under Section 5 (Supplier / Subcontractor Control).
+
+### 1.3 Configuration items
+The following categories of items are under configuration control.
+
+| Category | Items | Location |
+|---|---|---|
+| Source code | Frontend, backend and API code | `src/` |
+| Tests | Automated test suites | `tests/` |
+| Documentation | This SCMP, the README, the change request template | `docs/`, `README.md` |
+| Build and delivery | CI pipeline definition, dependency list | `.github/workflows/`, `package.json` |
+| Governance and records | CODEOWNERS, pull request template, CHANGELOG, CCB minutes, status reports, audit checklists | `.github/`, `CHANGELOG.md`, `docs/ccb-minutes/`, `docs/status-reports/`, `docs/audits/` |
+
+Requirements and design documents (SRD and SDD) will be added to this list under `docs/` when they are produced. An item joins or leaves the list only through an approved change request. Section 3.1 explains how items are named, versioned and baselined.
+
+### 1.4 Definitions
+- **SCM (Software Configuration Management):** identifying, organising, tracking and controlling changes to software throughout its life cycle.
+- **SCMP:** this document, which defines the procedures and responsibilities for SCM on this project.
+- **CI (Configuration Item):** any component or document that is placed under configuration control.
+- **Baseline:** a reviewed and approved version of one or more CIs, tagged in Git, that serves as the reference for later changes.
+- **CR (Change Request):** a formal proposal to change a baselined CI, recorded in Jira as a Change Request with a ticket key such as `ECOM-7`.
+- **CCB (Change Control Board):** the group that approves or rejects change requests.
+- **CM (Configuration Manager):** the person responsible for overseeing the SCM activities and for compliance with this plan.
+- **Branch:** an isolated line of work in Git. Each approved change is made on its own branch.
+- **Pull request (PR):** a request on GitHub to merge a branch into `main`, reviewed before it is accepted.
+- **Tag:** a named, permanent marker on a Git commit, used to record a baseline.
+
+### 1.5 References
+- SEN 401 Software Configuration Management and Maintenance, lecture slides, Weeks 1 to 10, Pan-Atlantic University.
+- IEEE Std 828-2012, Standard for Configuration Management in Systems and Software Engineering.
+- Project repository: https://github.com/SEN-Team-A/e-commerce
+
+### 1.6 Document overview
+Section 2 names the roles and the rules that govern change. Section 3 describes the four SCM activities: identification, control, status accounting, and audits and reviews, together with surveillance. Section 4 lists the tools and environment. Section 5 explains how external components are controlled. Section 6 sets out which records are kept, where and for how long.
+
+### 1.7 Document history
+| Version | Date | Description | Author | Ticket |
+|---|---|---|---|---|
+| 0.1 | 2026-11-09 | Initial skeleton and repository setup | SEN-Team-A | none |
+| 0.2 | 2026-11-16 | Section 1 (Introduction) written | Kolawole Agbolade | ECOM-5 |
 
 ## 2. SCM Management
 ### 2.1 Roles and responsibilities
