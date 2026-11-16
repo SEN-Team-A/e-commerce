@@ -5,6 +5,7 @@ All notable changes are recorded here, one line per merged change, referencing t
 ## [Unreleased]
 
 - ECOM-5: Write SCMP section 1 (Introduction)
+- ECOM-11: Fix CI test command so build-and-test runs on Node 20
 
 ## [0.1.0] - Baseline
 
