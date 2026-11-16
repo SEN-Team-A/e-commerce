@@ -56,18 +56,119 @@ Section 2 names the roles and the rules that govern change. Section 3 describes 
 | 0.2 | 2026-11-16 | Section 1 (Introduction) written | Kolawole Agbolade | ECOM-5 |
 
 ## 2. SCM Management
-### 2.1 Roles and responsibilities
-| Role | Person | Responsibility |
+
+This section explains how Software Configuration Management (SCM) will be managed within SEN-Team-A during the development and maintenance of the e-commerce website. It identifies the responsibilities of team members, explains how changes are approved, and outlines the policies that guide configuration management activities.
+
+### 2.1. Roles and Responsibilities
+
+SEN-Team-A consists of five members who are responsible for managing, developing, reviewing, and maintaining the project's configuration items. These include the source code, project documents, test files, and other resources required for the e-commerce website.
+
+The team has appointed a Configuration Manager (CM), a Vice Configuration Manager, and a Change Control Board (CCB). All five members also participate in development activities, while one member is assigned to quality assurance and auditing.
+
+The responsibilities are assigned as follows:
+
+| Role | Assigned Member(s) | Responsibilities |
 |---|---|---|
-| Configuration Manager | [FILL] | Leads identification, status accounting and audits; owns repo settings |
-| CCB (chair + members) | [FILL] | Approves or rejects change requests |
-| Developers | [FILL] | Propose CIs, implement approved changes |
-| QA / independent auditor | [FILL] | Performs audits |
-### 2.2 Applicable policies and standards
-- No direct pushes to `main`; all changes via pull request.
-- Jira ticket key is the authorisation for any change.
-- Branch naming: `feature/<username>/<ECOM-n>-<slug>`.
-- Definition of Done: CR approved, PR reviewed by CODEOWNER, CI green, CHANGELOG updated.
+| Configuration Manager (CM) | Kolawole Agbolade | Manages the GitHub repository and ensures that the team follows the SCMP. Checks that each change has an approved Jira ticket, a reviewed pull request, and passing CI checks before performing the final merge into `main`. Oversees configuration baselines and prepares weekly configuration status reports. |
+| Vice Configuration Manager | Raymond Okolo | Assists the CM in monitoring configuration activities, checking change records, and maintaining repository organisation. Takes over the CM's responsibilities when the CM is unavailable. |
+| Change Control Board (CCB) | Kolawole Agbolade, Raymond Okolo, Abdulbasit Muftau, Basil Daudu, David Okenla | Reviews submitted change requests during the weekly CCB meeting. Evaluates the purpose and possible impact of each proposed change before deciding whether to approve, reject, or defer it. Ensures that only approved changes proceed to implementation. |
+| Developers | Kolawole Agbolade, Raymond Okolo, Abdulbasit Muftau, Basil Daudu, David Okenla | Implement approved changes on separate feature branches. Follow the agreed branch naming convention, keep their changes working, update relevant documentation, and resolve merge conflicts before requesting a review. |
+| Quality Assurance (QA) / Independent Auditor | David Okenla | Reviews completed changes to check that they meet the approved requirements and project standards. Verifies relevant test results, checks compliance with the SCMP, and reports issues that must be corrected before a change is merged. |
+
+#### Change Control Board (CCB) Operations
+
+The Change Control Board is responsible for deciding which proposed changes can be implemented in the project.
+
+The CCB consists of all five members of SEN-Team-A and meets **every Tuesday at 4:00 PM**.
+
+All proposed changes must first be submitted as Change Request tickets in the team's Jira project, ECOM.
+
+The change control process follows these steps:
+
+1. A team member creates a Change Request ticket in Jira and describes the proposed change.
+2. The ticket moves from **Submitted** to **CCB Review** for evaluation.
+3. The CCB reviews the change and decides whether to approve, reject, or defer it.
+4. Approved requests move to **Approved**, allowing the assigned developer to begin implementation.
+5. The developer moves the ticket to **In Progress** while working on the change and to **In Review** when the pull request is ready for review.
+6. After the required reviews, checks, and final merge are completed, the ticket moves to **Done**.
+7. Rejected requests are moved to **Rejected** and are not implemented.
+
+The CCB's decisions are documented in meeting notes stored in `docs/ccb-minutes/` within the GitHub repository. These records provide evidence of which changes were considered and the decisions made.
+
+The approved Jira ticket key serves as the official authorisation for a change. No team member is permitted to begin implementing a change before the CCB approves its ticket.
+
+### 2.2. Applicable Policies and Standards
+
+To maintain consistency, accountability, and proper control of project changes, SEN-Team-A follows the policies below.
+
+**1. Change Request Policy**
+
+Every proposed change to a controlled project file must have a Jira ticket of type **Change Request** in the ECOM project.
+
+A change can only be implemented after the Change Control Board has approved its ticket. The Jira ticket key is used to identify and track the authorised change throughout development.
+
+**2. Branch Protection Policy**
+
+The `main` branch is protected, and team members are not allowed to push changes directly to it.
+
+All changes must be submitted through GitHub pull requests. Before a pull request can be merged, it must receive at least one approving review and pass the required CI check named `build-and-test`.
+
+The Configuration Manager is responsible for performing the final merge after these conditions have been satisfied.
+
+**3. Branch Naming Policy**
+
+Each approved change must be developed on a separate feature branch created from the latest version of `main`.
+
+Branches must follow this naming format:
+
+`feature/<github-username>/<ECOM-n>-<short-slug>`
+
+For example:
+
+`feature/raymond-okolo/ECOM-6-scmp-management`
+
+The branch name identifies the developer, the related Jira ticket, and the purpose of the change.
+
+**4. Pull Request and Review Policy**
+
+After completing an approved change, the developer must push the feature branch to GitHub and open a pull request using the team's pull request template.
+
+The pull request must identify the related Jira ticket and describe the changes made.
+
+At least one approving review is required before merging. Developers must address issues identified during review and resolve merge conflicts before the final merge.
+
+**5. Continuous Integration Policy**
+
+The project uses GitHub Actions to run the `build-and-test` CI check.
+
+The check must pass before a pull request is merged into `main`. If it fails, the developer must correct the problem and obtain a passing result before the change can proceed.
+
+**6. Definition of Done Policy**
+
+A change is considered complete only when all the following conditions have been satisfied:
+
+- The Change Request has been approved by the CCB.
+- The pull request has been reviewed and approved.
+- The required `build-and-test` CI check has passed.
+- `CHANGELOG.md` has been updated to record the change.
+
+The Configuration Manager confirms that these requirements have been met before performing the final merge.
+
+**7. Configuration Documentation Policy**
+
+The SCMP is maintained in Markdown format in `docs/SCMP.md` within the GitHub repository.
+
+Changes to the SCMP must follow the same Jira approval, feature branch, pull request, and review process used for other controlled project files.
+
+When the SCMP is updated, its version number and document history must also be updated so that the team can identify the changes made between versions.
+
+**8. Configuration Records Policy**
+
+Jira is used to track Change Requests and their approval status, while GitHub maintains the history of commits, branches, pull requests, reviews, and merged changes.
+
+The team also maintains `CHANGELOG.md` to record completed changes and stores CCB meeting notes in `docs/ccb-minutes/`.
+
+These records allow team members to trace changes from their original requests to their final implementation.
 
 ## 3. SCM Activities
 ### 3.1 Configuration identification
