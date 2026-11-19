@@ -8,6 +8,7 @@ All notable changes are recorded here, one line per merged change, referencing t
 - ECOM-5: Write SCMP section 1 (Introduction)
 - ECOM-11: Fix CI test command so build-and-test runs on Node 20
 - ECOM-6: Write SCMP section 2 (SCM Management)
+- ECOM-7: Write SCMP sections 3.1-3.2 and correct version history for ECOM-6
 
 ## [0.1.0] - Baseline
 

@@ -1,5 +1,5 @@
 # Software Configuration Management Plan (SCMP)
-**Project:** E-Commerce Platform  **Team:** SEN-Team-A  **Version:** 0.2 (draft)  **Course:** SEN 401
+**Project:** E-Commerce Platform  **Team:** SEN-Team-A  **Version:** 0.4 (draft)  **Course:** SEN 401
 
 > Fields marked **[FILL]** must be completed by the team before submission (names, dates, cadence).
 
@@ -54,6 +54,8 @@ Section 2 names the roles and the rules that govern change. Section 3 describes 
 |---|---|---|---|---|
 | 0.1 | 2026-11-09 | Initial skeleton and repository setup | SEN-Team-A | none |
 | 0.2 | 2026-11-16 | Section 1 (Introduction) written | Kolawole Agbolade | ECOM-5 |
+| 0.3 | 2026-11-16 | Section 2 (SCM Management) written | Raymond Okolo | ECOM-6 |
+| 0.4 | 2026-11-19 | Sections 3.1 and 3.2 written; version history for ECOM-6 corrected | David Okenla | ECOM-7 |
 
 ## 2. SCM Management
 
@@ -125,7 +127,7 @@ Branches must follow this naming format:
 
 For example:
 
-`feature/raymond-okolo/ECOM-6-scmp-management`
+`feature/rio-cl/ECOM-6-scmp-management`
 
 The branch name identifies the developer, the related Jira ticket, and the purpose of the change.
 
@@ -172,9 +174,181 @@ These records allow team members to trace changes from their original requests t
 
 ## 3. SCM Activities
 ### 3.1 Configuration identification
-CIs: source code (`src/`), tests (`tests/`), documentation (`docs/`, SCMP), CI/CD pipeline (`.github/workflows/`), dependency list (`package.json`). Naming follows the repo layout in the README. Baselines are Git annotated tags: `v0.1-baseline`, then `v<major>.<minor>` per release.
+
+This section explains which items are placed under configuration control, how they are named and numbered, and how approved versions are fixed as baselines. The list of items is in Section 1.3. The roles are in Section 2.1.
+
+#### 3.1.1 Selecting configuration items
+
+An item becomes a configuration item (CI) when it meets all three criteria:
+
+1. It is stored in the repository `SEN-Team-A/e-commerce`.
+2. A change to it would alter how the platform behaves, how it is built and tested, or the evidence of how the team works.
+3. The team must be able to say who changed it and why, and to restore an earlier version of it.
+
+Files that can be rebuilt from other CIs, such as build output, are not CIs.
+
+An item is added to or removed from the list in Section 1.3 only through an approved Change Request (CR). The CR names the item in its Affected CI field. The pull request (PR) that carries out the change updates the table in Section 1.3. Because that edit changes the SCMP, the PR also raises the SCMP version (see 3.1.3). When an item is removed, its file is deleted in the PR and its history stays in Git.
+
+#### 3.1.2 Naming conventions
+
+| Item | Rule | Example |
+|---|---|---|
+| Files and folders | New files and folders use lowercase letters and hyphens. Standard names keep their usual form. | `docs/ccb-minutes/`, `README.md`, `CHANGELOG.md`, `CODEOWNERS` |
+| CCB minutes | `docs/ccb-minutes/YYYY-MM-DD-ccb-<n>.md`. The date is the meeting date and `<n>` is the number of the meeting. | `docs/ccb-minutes/2026-11-17-ccb-1.md` |
+| Status reports | `docs/status-reports/YYYY-MM-DD-status-report.md` | `docs/status-reports/2026-11-17-status-report.md` |
+| Audit records | `docs/audits/YYYY-MM-DD-audit-<functional or physical>.md` | `docs/audits/2026-11-17-audit-functional.md` |
+| Jira keys | `ECOM-<n>`. Jira assigns `<n>` in order when a ticket is created. | `ECOM-7` |
+| Branches | `feature/<github-username>/<ECOM-n>-<short-slug>`. The slug uses lowercase letters and hyphens. | `feature/raymond-okolo/ECOM-6-scmp-management` |
+| Commit messages | The Jira key, a colon, then a short summary. | `ECOM-6: write SCMP section 2` |
+| PR titles | The same format as commit messages. | `ECOM-6: write SCMP section 2` |
+| Tags | `v0.1-baseline` (the first baseline only), `scmp-v<major>.<minor>` (SCMP baselines) and `v<major>.<minor>` (product releases). See 3.1.4. | `v0.1-baseline`, `scmp-v1.0`, `v0.2` |
+
+The examples for records show the file name format. The Jira key in the branch name, the commit messages and the PR title is what links all three to the approved ticket.
+
+#### 3.1.3 Version numbering
+
+| Number | Where it appears | Rule |
+|---|---|---|
+| SCMP version | The `**Version:**` field in the header of `docs/SCMP.md` and the table in Section 1.7 | Every merged PR that changes `docs/SCMP.md` raises the minor number by one (for example 0.3 to 0.4) and adds one row to Section 1.7 with the version, the date the PR is merged, a description, the author and the ticket. The header and the last row must show the same version. The version becomes 1.0 at final submission, when the `scmp-v1.0` baseline is approved. |
+| Software version | Git tag `v<major>.<minor>` | The minor number increases for each release that adds or fixes features. The major number increases for a change that breaks existing behaviour, and for the first full production-ready release (`v1.0`). The minor number goes back to 0 when the major number increases. Every software tag is `0.x` until the first production-ready release. |
+
+Other documents have no version number of their own. Their history is the Git history, and every change to them is recorded as a line in `CHANGELOG.md`.
+
+#### 3.1.4 Baselines
+
+A baseline is a reviewed and approved version of one or more CIs, fixed as an annotated Git tag (see Section 1.4). After a baseline is created it does not change. Later work is made as new commits after the tag, and the difference from a baseline can be shown with `git diff <tag> main`.
+
+| Baseline | Contents | When it is created | Tag | Approved by | Created by |
+|---|---|---|---|---|---|
+| Initial baseline | The repository skeleton: SCMP draft, CI workflow, `CODEOWNERS`, PR template | Created on 2026-11-10 during repository setup, before this plan's change process started | `v0.1-baseline` | Not applicable (created during repository setup) | Configuration Manager (Kolawole Agbolade) |
+| SCMP baseline | All six SCMP sections complete, with no **[FILL]** left | After the CCB approves it and before final submission | `scmp-v1.0` | CCB, through a Change Request at a Tuesday meeting | Configuration Manager; Vice Configuration Manager if the CM is unavailable |
+| Product release | The platform code, tests and documents at a release | At each release of the e-commerce site | `v<major>.<minor>` | CCB, through a Change Request at a Tuesday meeting | Configuration Manager; Vice Configuration Manager if the CM is unavailable |
+
+To create a baseline:
+
+1. The CCB approves the baseline Change Request at its Tuesday meeting (ticket status **Approved**).
+2. The CM checks out the latest `main` and confirms that `build-and-test` has passed on the commit to be tagged.
+3. The CM creates an annotated tag whose message says what the baseline contains, for example `git tag -a scmp-v1.0 -m "SCMP complete, approved by CCB"`.
+4. The CM pushes only that tag with `git push origin scmp-v1.0`.
+5. The CM checks that the tag shows on GitHub and writes the tag name in a comment on the Change Request.
+
+The evidence is the approved ticket, the tag on GitHub and the CCB minutes.
+
+A baselined item changes only through an approved Change Request (Section 2.2, Change Request Policy). A tag is never moved, deleted or re-created. A wrong tag is corrected with a new tag approved through a new Change Request, which keeps the history intact (Section 6).
 ### 3.2 Configuration control
-Flow: Jira CR (types: Change Request) → CCB review → Approved → branch → PR → CODEOWNERS review + CI → merge. CCB meets **[FILL: e.g. every Monday 4pm, 30 min]** and records minutes in `docs/ccb-minutes/`. Emergency changes: CCB chair may approve in writing, retrospective review at next meeting.
+
+This section explains how a change to a CI is requested, approved, made and recorded. The roles are in Section 2.1 and the policies are in Section 2.2. This section turns them into steps and names the evidence each step leaves behind.
+
+#### 3.2.1 Change requests
+
+Every change starts as a Jira ticket of type **Change Request** in the ECOM space. Any of the five team members may raise one. A ticket must have these fields:
+
+| Field | What it holds |
+|---|---|
+| Affected CI | The CI to be changed, with its path, taken from Section 1.3 |
+| Justification | Why the change is needed |
+| Impact | What else the change touches, and the effort and risk in one or two lines |
+| Disposition | The CCB decision: Approved, Rejected or Deferred. It is set after the CCB decides. |
+
+Affected CI, Justification and Impact must be filled in before the ticket moves to **CCB Review**. The Configuration Manager (CM) checks this.
+
+A ticket moves through these statuses:
+
+| Status | Meaning | Moved by |
+|---|---|---|
+| Submitted | The ticket is raised and waits for the CM's check | The ticket's author creates it in this status |
+| CCB Review | The fields are complete and the CCB has not yet decided, or the CCB has deferred it | CM |
+| Approved | The CCB approved it and an assignee is named | CM |
+| In Progress | The assignee has started work | Assignee |
+| In Review | The PR is open and waiting for review | Assignee |
+| Done | The PR is merged and the Definition of Done is met | CM |
+| Rejected | The CCB rejected it. It is not implemented. | CM |
+
+#### 3.2.2 Change process
+
+| Step | Who | What happens | Evidence |
+|---|---|---|---|
+| 1. Raise | Any team member | Creates a Change Request and fills in Affected CI, Justification and Impact. Status: **Submitted**. | Jira ticket |
+| 2. Check | CM | Checks that the three fields are filled in. If they are, moves the ticket to **CCB Review**. If not, writes a comment naming the missing field and leaves the ticket in **Submitted**. | Ticket status and comment |
+| 3. Decide | CCB | Decides on every ticket that is in **CCB Review** when the Tuesday 4:00 PM meeting starts. A quorum is 3 of 5 members including the CM or the Vice CM, and decisions are by majority vote (see 3.2.3). | CCB minutes in `docs/ccb-minutes/` |
+| 4. Record | CM | After the meeting, sets Disposition. For an approved ticket, names the assignee and moves it to **Approved**. For a rejected ticket, moves it to **Rejected**. A deferred ticket stays in **CCB Review**. | Ticket status, Disposition and assignee |
+| 5. Branch | Assignee | Moves the ticket to **In Progress** and creates the branch from the latest `main` (see 3.2.4). | Branch linked to the ticket |
+| 6. Implement | Assignee | Makes the change in commits that start with the Jira key. Updates the affected documents and adds one line to `CHANGELOG.md`. | Commits, `CHANGELOG.md` |
+| 7. Open PR | Assignee | Pushes the branch and opens a PR with the PR template. Moves the ticket to **In Review**. | PR |
+| 8. Review | A team member other than the author | Gives at least one approving review. | PR review |
+| 9. CI | GitHub Actions | Runs `build-and-test` (Node 20). It must pass. | CI run on the PR |
+| 10. Merge | CM | Confirms the four Definition of Done conditions (Section 2.2, policy 6) and merges the PR into `main`. | Merged PR |
+| 11. Close | CM | Moves the ticket to **Done**. | Ticket status |
+
+#### 3.2.3 CCB evaluation
+
+For each ticket the CCB considers:
+
+- **Affected CIs:** which CIs from Section 1.3 change, and whether any of them is part of a baseline.
+- **Impact:** what else the change affects (other CIs, tests, documents, the build).
+- **Effort:** how much work the change needs, as written in the Impact field.
+- **Risk:** what could break and how the change can be undone, as written in the Impact field.
+
+The CCB can make three decisions:
+
+| Decision | Result |
+|---|---|
+| Approve | The ticket moves to **Approved** and an assignee is named. Work may start. |
+| Reject | The ticket moves to **Rejected**. No work is done (see 3.2.6). |
+| Defer | The ticket stays in **CCB Review** until a later meeting (see 3.2.6). |
+
+The minutes record the meeting date, the members present, and for each ticket its key, the decision and the reason.
+
+#### 3.2.4 Implementation and review
+
+**Branch.** The assignee creates the branch from the latest `main`:
+
+```
+git checkout main
+git pull
+git checkout -b feature/<github-username>/<ECOM-n>-<short-slug>
+```
+
+**Pull request.** The PR title starts with the Jira key. The PR uses the pull request template: Ticket, What changed, Configuration items affected and Checklist.
+
+**Review.** The PR needs at least one approving review from a team member other than its author, because GitHub does not let an author approve their own PR. Any other member may review. The QA / independent auditor (David Okenla) is one possible reviewer but is not required. When the CM is the author, another member approves before the CM merges.
+
+**CI.** `build-and-test` must pass. If it fails, the assignee pushes a fix to the same branch until it passes.
+
+**Merge.** The CM performs the final merge into `main` after confirming the approved ticket, the approved review, the passing CI check and the `CHANGELOG.md` line. Direct pushes to `main` are blocked.
+
+**Merge conflicts.** The ruleset does not require a branch to be up to date with `main`. If a PR conflicts with `main`, the author resolves the conflict before review continues. The author merges the latest `main` into the feature branch with `git merge main`, resolves the conflict, and pushes. The author uses merge and not rebase so that no history is rewritten (Section 6). When two PRs both edit `CHANGELOG.md`, the author keeps both lines. If another conflict cannot be resolved by keeping both changes, the author reports it to the CM in a comment on the PR before review continues. After the conflict is resolved, `build-and-test` must pass again.
+
+#### 3.2.5 Emergency changes
+
+An emergency is one of these:
+
+- `main` is broken (build or tests fail for everyone).
+- A security flaw.
+- A failure of payments or checkout in the deployed site.
+
+For an emergency, any team member creates a Change Request straight away, with "EMERGENCY" at the start of the title. The CM approves it with a comment on the ticket and moves it to **Approved**. If the CM is unavailable, the Vice Configuration Manager does this instead. The comment names the assignee. Approval in a group chat is not valid.
+
+The emergency approval replaces only the wait for the Tuesday CCB meeting. The change still goes through a branch, a PR, at least one approving review and a passing `build-and-test`, and `CHANGELOG.md` is still updated.
+
+The CCB reviews the emergency change at the next Tuesday meeting and records its decision in the minutes. If the CCB rejects it, the change is undone with a revert PR under a follow-up ticket, and never with a force-push. The evidence is the ticket, the approval comment, the PR and the minutes.
+
+#### 3.2.6 Rejected and deferred requests
+
+**Rejected.** The ticket moves to **Rejected** and Disposition is set to Rejected. The reason is written in the minutes and in a Jira comment. No branch is created. A rejected ticket is not reopened. If the team still wants the change, a member raises a new ticket linked to the old one in Jira, with a new justification.
+
+**Deferred.** Disposition is set to Deferred and the ticket stays in **CCB Review**. The reason, and what the CCB needs before it can decide, are written in the minutes and in a Jira comment. No work may start. The ticket is on the agenda of the next Tuesday meeting. A ticket can be deferred at most twice. At the third meeting the CCB must approve or reject it.
+
+Both kinds of ticket are kept for the life of the project (Section 6).
+
+#### 3.2.7 Deviations
+
+A deviation is any case where the repository or Jira records differ from this plan. Examples are a merge with no approved ticket, a direct push to `main`, a wrong branch name, a missing `CHANGELOG.md` line, or an SCMP change without a version update. The ECOM-6 pull request was merged without the version and document history update required by Section 2.2. It was corrected under ECOM-7.
+
+1. **Report.** Any team member who sees a deviation reports it to the CM, in a Jira comment on the ticket involved or at the CCB meeting.
+2. **Record.** The QA / independent auditor (David Okenla) records it in the audit checklist in `docs/audits/` as "Drifted", with evidence such as the ticket, PR or commit (see Section 3.4).
+3. **Correct.** The CM assigns the correction to a team member. A correction that changes a controlled file starts only after the CCB approves its Change Request, and is completed within seven days of that approval. A correction that changes no controlled file is recorded in the CCB minutes.
+4. **Confirm.** The auditor records the correction in the audit checklist, with a reference to the correcting PR or the minutes.
 ### 3.3 Configuration status accounting
 Status reports are compiled **[FILL: weekly]** from the Jira Development panel (linked branch, PR, build). A ticket is Closed only when its PR is merged. Build pass rate = passing runs ÷ total runs. Reports are stored in `docs/status-reports/`.
 ### 3.4 Audits and reviews
