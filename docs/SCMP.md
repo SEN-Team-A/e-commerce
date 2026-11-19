@@ -127,7 +127,7 @@ Branches must follow this naming format:
 
 For example:
 
-`feature/raymond-okolo/ECOM-6-scmp-management`
+`feature/rio-cl/ECOM-6-scmp-management`
 
 The branch name identifies the developer, the related Jira ticket, and the purpose of the change.
 
@@ -347,7 +347,7 @@ A deviation is any case where the repository or Jira records differ from this pl
 
 1. **Report.** Any team member who sees a deviation reports it to the CM, in a Jira comment on the ticket involved or at the CCB meeting.
 2. **Record.** The QA / independent auditor (David Okenla) records it in the audit checklist in `docs/audits/` as "Drifted", with evidence such as the ticket, PR or commit (see Section 3.4).
-3. **Correct.** The CM assigns the correction to a team member, who completes it before the next Tuesday CCB meeting. A correction that changes a controlled file starts only after the CCB approves its Change Request at that meeting. A correction that changes no controlled file is recorded in the CCB minutes.
+3. **Correct.** The CM assigns the correction to a team member. A correction that changes a controlled file starts only after the CCB approves its Change Request, and is completed within seven days of that approval. A correction that changes no controlled file is recorded in the CCB minutes.
 4. **Confirm.** The auditor records the correction in the audit checklist, with a reference to the correcting PR or the minutes.
 ### 3.3 Configuration status accounting
 Status reports are compiled **[FILL: weekly]** from the Jira Development panel (linked branch, PR, build). A ticket is Closed only when its PR is merged. Build pass rate = passing runs ÷ total runs. Reports are stored in `docs/status-reports/`.
