@@ -1,5 +1,5 @@
 # Software Configuration Management Plan (SCMP)
-**Project:** E-Commerce Platform  **Team:** SEN-Team-A  **Version:** 0.4 (draft)  **Course:** SEN 401
+**Project:** E-Commerce Platform  **Team:** SEN-Team-A  **Version:** 0.5 (draft)  **Course:** SEN 401
 
 > Fields marked **[FILL]** must be completed by the team before submission (names, dates, cadence).
 
@@ -56,6 +56,7 @@ Section 2 names the roles and the rules that govern change. Section 3 describes 
 | 0.2 | 2026-11-16 | Section 1 (Introduction) written | Kolawole Agbolade | ECOM-5 |
 | 0.3 | 2026-11-16 | Section 2 (SCM Management) written | Raymond Okolo | ECOM-6 |
 | 0.4 | 2026-11-19 | Sections 3.1 and 3.2 written; version history for ECOM-6 corrected | David Okenla | ECOM-7 |
+| 0.5 | 2026-11-21 | Sections 3.3 to 3.5 written | Abdulbasit Muftau | ECOM-8 |
 
 ## 2. SCM Management
 
@@ -350,17 +351,95 @@ A deviation is any case where the repository or Jira records differ from this pl
 3. **Correct.** The CM assigns the correction to a team member. A correction that changes a controlled file starts only after the CCB approves its Change Request, and is completed within seven days of that approval. A correction that changes no controlled file is recorded in the CCB minutes.
 4. **Confirm.** The auditor records the correction in the audit checklist, with a reference to the correcting PR or the minutes.
 ### 3.3 Configuration status accounting
-Status reports are compiled **[FILL: weekly]** from the Jira Development panel (linked branch, PR, build). A ticket is Closed only when its PR is merged. Build pass rate = passing runs ÷ total runs. Reports are stored in `docs/status-reports/`.
+
+Configuration status accounting records the current state of configuration items (CIs) and change requests, then reports that state to the team. The CM prepares the weekly report described in Section 2.1. The Vice Configuration Manager prepares it when the CM is unavailable.
+
+#### 3.3.1 What is recorded
+
+The report records:
+
+- The count and Jira keys of tickets in each Jira status.
+- Change requests the CCB approved, rejected or deferred during the reporting period.
+- Pull requests opened and merged during the period.
+- The build pass rate for `build-and-test`.
+- The latest baseline tag and the number of commits on `main` since that tag.
+- Open deviations and the corrections assigned or completed for them, following Section 3.2.7.
+- The `CHANGELOG.md` lines added during the period.
+
+The Jira Development panel is connected to the repository SEN-Team-A/e-commerce and shows each ticket's branch, commits, PRs and build status. The CM uses it together with the Jira board and GitHub Actions.
+
+#### 3.3.2 Status reports
+
+The CM prepares one report each week, covering the previous seven days. The report is finished before the Tuesday 4:00 PM CCB meeting and presented at that meeting. When the CM is unavailable, the Vice Configuration Manager prepares and presents it.
+
+Each report is stored as `docs/status-reports/YYYY-MM-DD-status-report.md` (see Section 3.1). It is added to the repository through the normal change process.
+
+The build pass rate is calculated as:
+
+`passing build-and-test runs ÷ total build-and-test runs in the period × 100`
+
+A ticket is **Done** only when its PR has been merged into `main`.
+
+#### 3.3.3 Traceability
+
+For every change, the Jira ticket key connects the records: the key appears in the branch name, PR title, commit message prefix and `CHANGELOG.md` line. The CM uses the Jira ticket and the PR link in its comment to follow the change from approval through implementation and merge.
+
+#### 3.3.4 Metrics
+
+The weekly report includes the build pass rate for `build-and-test`, calculated using all runs in the reporting period. It also reports the number of commits on `main` since the latest baseline tag. These figures show recent build results and how far `main` has advanced beyond the current baseline.
 ### 3.4 Audits and reviews
-Functional audit (does it work; `main` builds and tests pass) and physical audit (does the record match reality; branch names, CODEOWNERS, tags vs deployed version) **[FILL: each sprint / before each release]**. Results are filed in `docs/audits/` as Followed/Drifted with evidence.
+
+Audits check whether the project follows this plan and whether the recorded configuration matches the approved changes and repository state. The QA / independent auditor, David Okenla, conducts the audits. If David authored the change being audited, the Vice Configuration Manager audits that item instead.
+
+#### 3.4.1 Functional configuration audit
+
+The functional configuration audit checks that the software and documents match the approved change requests. It verifies that `main` builds and all tests pass, and that the approved scope of each ticket marked **Done** matches the changes merged into `main`.
+
+#### 3.4.2 Physical configuration audit
+
+The physical configuration audit checks that the project records match the repository and its settings. It checks that:
+
+- Branch names follow Section 3.1.
+- Each PR title and commit has an approved Jira ticket key.
+- Every merged PR has a line in `CHANGELOG.md`.
+- The SCMP version header and document history match the merged SCMP pull requests.
+- `CODEOWNERS` and the `main` branch ruleset are unchanged.
+- Baseline tags exist and point to the commits recorded for them.
+- CCB minutes exist for every CCB decision.
+
+#### 3.4.3 Who audits and when
+
+David Okenla conducts a physical audit every two weeks, on every second Tuesday. A functional and physical audit is also completed before each baseline, including `scmp-v1.0`, and before each product release. When David authored an item being audited, the Vice Configuration Manager audits that item.
+
+#### 3.4.4 Audit records and results
+
+The auditor records each audit in one checklist file under `docs/audits/`, using the naming rules in Section 3.1. Each checklist has these columns:
+
+| Control | What the SCMP requires | Evidence found | Result (Followed or Drifted) | Action ticket |
+|---|---|---|---|---|
+
+Every result includes evidence, such as a Jira ticket key, PR number, commit, tag or screenshot. A **Drifted** result follows the deviation process in Section 3.2.7. The CCB reviews each audit result at its next Tuesday meeting, and the review is recorded in the CCB minutes.
+
+#### 3.4.5 Reviews
+
+Pull request reviews follow Section 3.2.4, including the requirement for at least one approving review. Baseline approval follows Section 3.1. This section records those review requirements by reference and does not replace them.
 ### 3.5 Surveillance
+
+Surveillance is the routine monitoring of individual controls between formal audits. The Configuration Manager (CM), Vice Configuration Manager and QA / independent auditor monitor the controls assigned to their roles.
+
 | Control | Evidence | Owner | Cadence | Failure signal |
 |---|---|---|---|---|
-| Authorised changes | Approved ticket linked to each merge | Configuration Manager | Weekly | Merge with no approved CR |
-| Builds | GitHub Actions logs | Configuration Manager | Every PR | Failed or missing CI run |
-| Baseline integrity | Release tag vs deployed version | Configuration Manager | Each release | Mismatch |
-| Process adherence | Spot-check of branches/PRs | CCB | Each sprint | Direct pushes, bypassed approvals |
+| Authorised changes: every merged PR links to an approved ticket | Jira ticket status history and GitHub PR list | Configuration Manager | Weekly | A PR is merged with no approved ticket |
+| Builds: `build-and-test` runs on every PR | GitHub Actions runs | Configuration Manager | Every PR; build pass rate reviewed weekly | A run is failed or missing, or a PR is merged with a red check |
+| Branch protection: the `main` ruleset is unchanged | GitHub ruleset settings page | Configuration Manager | Weekly | A rule is switched off or a bypass is added |
+| Baseline integrity: each tag exists, is annotated and points to the approved commit | GitHub Tags page and `git show` | Configuration Manager | At each baseline | A tag is missing, moved or lightweight |
+| Records: a minutes file exists for every CCB meeting and decision | `docs/ccb-minutes/` | Vice Configuration Manager | Weekly | A decision has no minutes file |
+| Process adherence: branch names, PR titles, PR template, `CHANGELOG.md` lines and version/history updates follow the plan | GitHub PR list | QA / independent auditor | Every second Tuesday, with the physical audit | Any required item is missing, such as the version update missed in ECOM-6 |
+| Jira and GitHub agree: a ticket is **Done** only if its PR is merged | Jira board and GitHub PR list | Configuration Manager | Weekly | A **Done** ticket has an unmerged PR, or a merged PR's ticket is not **Done** |
 
+When a failure signal appears, any team member reports it to the CM, and the QA / independent auditor records it as **Drifted** with evidence in the audit checklist. The CM assigns the correction, and the CCB records the matter in its minutes, following Section 3.2.7.
+
+Surveillance is routine monitoring of individual controls. An audit is a formal check of the project against the whole plan, with results recorded in an audit checklist.
 ## 4. Tools, Techniques and Environment
 Git and GitHub (repository, branch protection, CODEOWNERS, Actions CI), Jira (change requests, GitHub for Jira integration), Node.js runtime **[FILL: confirm stack]**.
 
