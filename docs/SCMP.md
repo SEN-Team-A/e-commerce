@@ -366,7 +366,7 @@ The report records:
 - Open deviations and the corrections assigned or completed for them, following Section 3.2.7.
 - The `CHANGELOG.md` lines added during the period.
 
-The CM checks Jira for ticket status and CCB decisions, the GitHub pull request list for opened and merged PRs, GitHub Actions for build results, and `CHANGELOG.md` for recorded changes. Until the Jira Development panel is connected, the PR link pasted in the Jira ticket comment is the link between that ticket and its PR.
+The Jira Development panel is connected to the repository SEN-Team-A/e-commerce and shows each ticket's branch, commits, PRs and build status. The CM uses it together with the Jira board and GitHub Actions.
 
 #### 3.3.2 Status reports
 
