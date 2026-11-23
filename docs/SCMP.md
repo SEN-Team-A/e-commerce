@@ -1,6 +1,6 @@
 # Software Configuration Management Plan (SCMP)
 
-**Project:** E-Commerce Platform **Team:** SEN-Team-A **Version:** 0.6 (draft) **Course:** SEN 401
+**Project:** E-Commerce Platform **Team:** SEN-Team-A **Version:** 0.7 (draft) **Course:** SEN 401
 
 > Fields marked **[FILL]** must be completed by the team before submission (names, dates, cadence).
 
@@ -67,6 +67,7 @@ Section 2 names the roles and the rules that govern change. Section 3 describes 
 | 0.4     | 2026-11-19 | Sections 3.1 and 3.2 written; version history for ECOM-6 corrected | David Okenla      | ECOM-7 |
 | 0.5     | 2026-11-21 | Sections 3.3 to 3.5 written                                        | Abdulbasit Muftau | ECOM-8 |
 | 0.6     | 2026-11-23 | Sections 4 to 5 written                                            | Basil Daudu       | ECOM-9 |
+| 0.7     | 2026-11-23 | Sections 6 written                                                 | Kolawole Agbolade | ECOM-9 |
 
 ## 2. SCM Management
 
@@ -569,4 +570,46 @@ Removing a dependency follows the same steps.
 
 ## 6. Records Collection and Retention
 
-Baseline tags, CCB minutes, status reports, audit checklists and Jira tickets are retained for the life of the project and the course assessment period. The Git history and tags are the authoritative record; nothing is deleted or force-pushed.
+This section lists the records the team keeps as evidence that this plan is followed, says where each one is kept and who creates it, and sets how long the records are kept. The records are kept in the two places this plan is audited against: the GitHub repository `SEN-Team-A/e-commerce` and the Jira space `ECOM`.
+
+### 6.1 Records kept
+
+| Record                              | What it shows                                                                                        | Where it is kept                                           | Created by                                                                                  | When                                                                     |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| Change Request tickets              | What was requested, why, its impact, the CCB decision (Disposition) and every status change          | Jira space `ECOM`                                          | The member who raises the request; the CM sets the assignee at approval                     | For every change (Section 3.2.1)                                         |
+| CCB minutes                         | Who attended, which Change Requests were decided and what was decided, deviations and tool decisions | `docs/ccb-minutes/YYYY-MM-DD-ccb-<n>.md`                   | Configuration Manager (Vice Configuration Manager when the CM is unavailable)               | After every CCB meeting                                                  |
+| Pull requests, reviews and comments | Who changed what, who reviewed it and when it was merged                                             | GitHub, repository `SEN-Team-A/e-commerce`                 | The author, the reviewer and the CM                                                         | For every pull request (Section 3.2.4)                                   |
+| Commits, branches and tags          | The complete history of every file, and the baselines                                                | Git history in the repository                              | All members; baseline tags by the CM                                                        | For every change and every baseline (Section 3.1)                        |
+| `CHANGELOG.md`                      | One line for each merged change, with its ticket key                                                 | Repository root                                            | The author of the change                                                                    | In every pull request                                                    |
+| SCMP version and document history   | Which version of this plan was approved, when, by whom and under which ticket                        | Header and Section 1.7 of `docs/SCMP.md`                   | The author of the change to the SCMP                                                        | In every pull request that changes `docs/SCMP.md` (Section 2.2)          |
+| Status reports                      | The state of the tickets, pull requests, builds and baselines for one week                           | `docs/status-reports/YYYY-MM-DD-status-report.md`          | Configuration Manager (Vice Configuration Manager when the CM is unavailable)               | Every week, before the Tuesday CCB meeting (Section 3.3)                 |
+| Audit checklists                    | Whether each control was Followed or Drifted, with evidence                                          | `docs/audits/YYYY-MM-DD-audit-<functional or physical>.md` | QA / independent auditor (the Vice Configuration Manager when the auditor wrote the change) | Every second Tuesday, and before each baseline and release (Section 3.4) |
+| Build results                       | Whether `build-and-test` passed on each pull request and on `main`                                   | GitHub Actions runs                                        | GitHub Actions                                                                              | On every pull request and every push to `main`                           |
+
+GitHub keeps the logs of Actions runs for a limited time (90 days by default). To keep the evidence for longer than the logs, the weekly status report records the build pass rate for the week, and each audit checklist records the run or pull request it relied on.
+
+### 6.2 How the records are collected
+
+- A record is created at the moment the activity happens, by the person named in 6.1. It is not rebuilt later from memory.
+- Records that are files in the repository (CCB minutes, status reports, audit checklists, and this plan) are added through the normal change process in Section 3.2. This means they have an approved ticket and a reviewed pull request, like any other configuration item (see Section 1.3).
+- The ticket key connects the records for a change: it appears in the Jira ticket, the branch name, the pull request title, the commit messages and the `CHANGELOG.md` line (Section 3.3.3). The Jira Development section of each ticket shows the linked branch, commits and pull request.
+- The CCB minutes and status reports repeat the key facts, such as ticket keys, decisions and dates, so the repository can be understood without opening Jira.
+
+### 6.3 Retention
+
+- All the records in 6.1 are kept for the life of the project and for the whole course assessment period.
+- After the assessment period the repository is archived (set to read-only) by the Configuration Manager. It is not deleted.
+- The Git history and the baseline tags are the authoritative record of the configuration. Nothing is deleted or force-pushed: the ruleset on `main` blocks force pushes and deletions (Section 3.5).
+- A Jira ticket is never deleted. A ticket raised by mistake is moved to **Rejected** with a comment that says why, so that the numbering and the history stay complete.
+- A mistake in a record is corrected by a new entry or a new change that says what was corrected. The original stays in the history. A record is never rewritten to hide a deviation. Deviations are handled under Section 3.2.7.
+
+### 6.4 Protection of the records
+
+- Records stored in the repository are protected by the ruleset on `main`: no direct pushes, a reviewed pull request and a passing `build-and-test` check are required before any change is merged (Section 2.2).
+- Only the Configuration Manager administers the settings of the repository and of the Jira space (Section 4.4).
+- Jira keeps the change history of every ticket, including status changes and comments.
+- The weekly check that the ruleset is unchanged and the audit of the CCB minutes are in Sections 3.4 and 3.5.
+
+### 6.5 Records and audits
+
+The auditor uses these records as the evidence that checks each control (Section 3.4). If a required record is missing, for example a CCB decision with no minutes file, that is recorded as **Drifted** and corrected under Section 3.2.7.
